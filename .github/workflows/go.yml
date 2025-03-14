@@ -78,19 +78,19 @@ jobs:
             exit
           EOF
 
-          echo "📤 Subiendo binario..."
+          echo "Subiendo binario..."
           scp -i deploy_key.pem server $SSH_USER@$SSH_HOST:/home/$SSH_USER/
 
-          echo "🚀 Iniciando servidor..."
+          echo "Iniciando servidor..."
           ssh -i deploy_key.pem $SSH_USER@$SSH_HOST << 'EOF'
             nohup /home/$SSH_USER/server > /home/$SSH_USER/server.log 2>&1 &
             exit
           EOF
 
-      - name: ✅ Notificar Éxito
+      - name: Notificar Éxito
         if: success()
-        run: echo "✅ Despliegue completado con éxito."
+        run: echo "Despliegue completado con éxito."
 
-      - name: ❌ Notificar Fallo
+      - name: Notificar Fallo
         if: failure()
-        run: echo "❌ Error en el despliegue."
+        run: echo "Error en el despliegue."
