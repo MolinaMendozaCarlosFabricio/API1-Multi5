@@ -19,7 +19,7 @@ jobs:
 
   test:
     name: Ejecutar pruebas
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04LTS
 
     steps: 
       - name: Clonar repositorio
@@ -46,7 +46,7 @@ jobs:
         
   build:
     name: Compilar y Desplegar
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04LTS
     needs: test
     if: github.event_name == 'push'
 
