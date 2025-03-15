@@ -14,19 +14,19 @@ env:
 
 jobs:
   test:
-    name: 🧪 Ejecutar Pruebas
+    name: Ejecutar Pruebas
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📦 Clonar Repositorio
+      - name: Clonar Repositorio
         uses: actions/checkout@v4
 
-      - name: 🔧 Configurar Go
+      - name: Configurar Go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
 
-      - name: 📦 Cache de Dependencias
+      - name: Cache de Dependencias
         uses: actions/cache@v3
         with:
           path: ~/go/pkg/mod
@@ -34,68 +34,68 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: 🧪 Ejecutar Pruebas
+      - name: Ejecutar Pruebas
         run: |
           go mod tidy
           go test ./...
 
-      - name: ✅ Notificar Éxito
+      - name: Notificar Éxito
         if: success()
-        run: echo "✅ Pruebas exitosas."
+        run: echo "Pruebas exitosas."
 
-      - name: ❌ Notificar Fallo
+      - name: Notificar Fallo
         if: failure()
-        run: echo "❌ Pruebas fallidas."
+        run: echo "Pruebas fallidas."
 
   build:
-    name: 🚀 Compilar y Desplegar
+    name: Compilar y Desplegar
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push'
 
     steps:
-      - name: 📦 Clonar Repositorio
+      - name: Clonar Repositorio
         uses: actions/checkout@v4
 
-      - name: 🔧 Configurar Go
+      - name: Configurar Go
         uses: actions/setup-go@v4
         with:
           go-version: ${{ env.GO_VERSION }}
 
-      - name: 🏗️ Compilar Binario
+      - name: Compilar Binario
         run: go build -o server ./cmd/main.go
 
-      - name: ✅ Verificar Binario
+      - name: Verificar Binario
         run: |
           if [ ! -f server ]; then
-            echo "❌ Binario no generado."
+            echo "Binario no generado."
             exit 1
           fi
 
-      - name: 📤 Desplegar en el Servidor
+      - name: Desplegar en el Servidor
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "🛑 Deteniendo el servidor..."
+            echo "Deteniendo el servidor..."
             sudo systemctl stop go-server || true
             rm -f /home/${{ secrets.SSH_USER }}/server
 
-            echo "📤 Subiendo binario..."
+            echo "Subiendo binario..."
             cat > /home/${{ secrets.SSH_USER }}/server << EOF
             $(cat server)
             EOF
             chmod +x /home/${{ secrets.SSH_USER }}/server
 
-            echo "🚀 Reiniciando el servidor..."
+            echo "Reiniciando el servidor..."
             sudo systemctl restart go-server
 
-      - name: ✅ Notificar Éxito
+      - name: Notificar Éxito
         if: success()
-        run: echo "✅ Despliegue completado con éxito."
+        run: echo "Despliegue completado con éxito."
 
-      - name: ❌ Notificar Fallo
+      - name: Notificar Fallo
         if: failure()
-        run: echo "❌ Error en el despliegue."
+        run: echo "Error en el despliegue."
