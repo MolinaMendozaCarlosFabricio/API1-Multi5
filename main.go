@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	parcel_routes "api1-multi.com/a/src/Parcels/infrastructure/routes"
 	user_routes "api1-multi.com/a/src/Users/infrastructure/routes"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/cors"
@@ -19,6 +20,11 @@ func main() {
     })
 
 	user_routes.UserRoutes(r)
+	parcel_routes.ParamsRoutes(r)
+	parcel_routes.CroptTypeRoutes(r)
+	parcel_routes.CropStatusRoutes(r)
+	parcel_routes.CropRoutes(r)
+	parcel_routes.ParcelRoutes(r)
 	handler := c.Handler(r)
 
 	http.ListenAndServe(":8080", handler)
