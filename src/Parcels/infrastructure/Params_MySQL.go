@@ -91,3 +91,12 @@ func(r *ParamsMySQL)EditParameters(params models.CultivationParameters)error{
     }
 	return err	
 }
+
+func(r *ParamsMySQL)Deleteparams(id int)error{
+	query := "DELETE FROM cultivation_parameters WHERE id_cultivation_parameter = ?"
+	_, err := r.conn.ExecPreparedQuerys(query, id)
+	if err != nil {
+        log.Fatalf("Error al registrar Usuarios:", err)
+    }
+	return err	
+}
