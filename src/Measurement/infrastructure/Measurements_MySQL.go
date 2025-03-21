@@ -20,7 +20,7 @@ func NewMeasurementMySQL()*MeasurementMySQL{
 }
 
 func(r *MeasurementMySQL)RegisterMeasurement(measurement domain.Measurement)error{
-	query := "INSERT INTO measurements (id_parcel, temp, humedity, air, sun) VALUES (?,?,?,?,?)"
+	query := "INSERT INTO measurements (id_parcel, temp, humedity, air, sun, date_and_hour) VALUES (?,?,?,?,?,?)"
 	_, err := r.conn.ExecPreparedQuerys(
 		query,
 		measurement.Id_parcel,
@@ -28,6 +28,7 @@ func(r *MeasurementMySQL)RegisterMeasurement(measurement domain.Measurement)erro
 		measurement.Humedity,
 		measurement.Air,
 		measurement.Sun,
+		measurement.Date_and_hour,
 	)
 	if err != nil {
         log.Fatalf("Error al registrar Usuarios:", err)
