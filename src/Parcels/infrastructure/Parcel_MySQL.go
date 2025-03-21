@@ -51,7 +51,7 @@ func(r *ParcelMySQL)GetAllMyParcels(id_user int)([]models.ParcelAllInfo, error){
 		parcel.Id_crop.Name = name
 		parcel.Id_crop.Id_crop_type.Name = type_name
 		parcel.Id_status.Name = status
-		//parcel.Id_device.Model = model
+		parcel.Id_device.Model = model
 		parcels = append(parcels, parcel)
 	}
 	return parcels, err
