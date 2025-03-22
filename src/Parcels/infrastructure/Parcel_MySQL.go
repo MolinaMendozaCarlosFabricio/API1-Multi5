@@ -19,13 +19,17 @@ func NewParcelMySQL()*ParcelMySQL{
 	return&ParcelMySQL{conn: *conn}
 }
 
-func(r *ParcelMySQL)CreateParcel(parcel models.Parcel)error{
+func(r *ParcelMySQL)CreateParcel(parcel models.Parcel)(int, error){
 	query := "INSERT INTO parcel (id_user, id_crop, id_device, id_status) VALUES (?,?,?,?)"
-	_, err := r.conn.ExecPreparedQuerys(query, parcel.Id_user, parcel.Id_crop, parcel.Id_device, parcel.Id_status)
+	res, err := r.conn.ExecPreparedQuerys(query, parcel.Id_user, parcel.Id_crop, parcel.Id_device, parcel.Id_status)
 	if err != nil {
         log.Fatalf("Error al registrar Usuarios:", err)
     }
-	return err
+	last_id, err := res.LastInsertId()
+	if err != nil {
+        log.Fatalf("Error al registrar Usuarios:", err)
+    }
+	return int(last_id), err
 }
 
 func(r *ParcelMySQL)GetAllMyParcels(id_user int)([]models.ParcelAllInfo, error){
@@ -51,7 +55,7 @@ func(r *ParcelMySQL)GetAllMyParcels(id_user int)([]models.ParcelAllInfo, error){
 		parcel.Id_crop.Name = name
 		parcel.Id_crop.Id_crop_type.Name = type_name
 		parcel.Id_status.Name = status
-		//parcel.Id_device.Model = model
+		parcel.Id_device.Model = model
 		parcels = append(parcels, parcel)
 	}
 	return parcels, err
