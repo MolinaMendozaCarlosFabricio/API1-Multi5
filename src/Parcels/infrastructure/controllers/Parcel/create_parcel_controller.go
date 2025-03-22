@@ -68,7 +68,9 @@ func(controller *CreateParcelC)Execute(c *gin.Context){
 		return
 	}
 
-	if err := controller.uc_parcel.Execute(input.Id_user, id_crop, input.Id_device, input.Id_status); err != nil {
+	results, err := controller.uc_parcel.Execute(input.Id_user, id_crop, input.Id_device, input.Id_status);
+
+	if  err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"Error": "Error al registrar parcela",
 		})
@@ -77,5 +79,6 @@ func(controller *CreateParcelC)Execute(c *gin.Context){
 
 	c.JSON(http.StatusOK, gin.H{
 		"Message": "Parcela registrada",
+		"Results": results,
 	})
 }

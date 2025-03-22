@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 
+	device_routes "api1-multi.com/a/src/Devices/infrastructure/routes"
+	measuremet_routes "api1-multi.com/a/src/Measurement/infrastructure/routes"
 	parcel_routes "api1-multi.com/a/src/Parcels/infrastructure/routes"
 	user_routes "api1-multi.com/a/src/Users/infrastructure/routes"
 	"github.com/gin-gonic/gin"
@@ -25,6 +27,10 @@ func main() {
 	parcel_routes.CropStatusRoutes(r)
 	parcel_routes.CropRoutes(r)
 	parcel_routes.ParcelRoutes(r)
+	measuremet_routes.MeasurementRoutes(r)
+	device_routes.DeviceRoutes(r)
+	device_routes.DeviceHistoryRoutes(r)
+
 	handler := c.Handler(r)
 
 	http.ListenAndServe(":8080", handler)
