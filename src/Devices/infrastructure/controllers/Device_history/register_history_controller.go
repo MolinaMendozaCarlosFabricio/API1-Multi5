@@ -36,12 +36,12 @@ func(controller *RegisterDeviceInHistoryC)Execute(c *gin.Context){
 	err := controller.uc.Execute(id_number)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"Error": "Error al obtener mediciones de las parcelas",
+			"Error": "Error al realizar registro en el historial de dispositivs",
 		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"Message": "Mediciones de las parcelas obtenidas",
+		"Message": "Registro en el historial de dispositivos hecho",
 	})
 }

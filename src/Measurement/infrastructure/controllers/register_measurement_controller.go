@@ -27,6 +27,7 @@ func(controller *RegisterMeasurementC)Execute(c *gin.Context){
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error": "Entrada de datos no válida",
+			"Err": err,
 		})
 		return
 	}

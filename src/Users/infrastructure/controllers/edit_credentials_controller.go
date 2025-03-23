@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"api1-multi.com/a/src/Users/application"
-	"api1-multi.com/a/src/Users/domain"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,7 +33,10 @@ func(controller *EditCredentialsController)Execute(c *gin.Context){
 		return
 	}
 
-	var input domain.AccessCredentials
+	var input struct{
+		Email string `json:"email"`
+		Password string `json:"password"`
+	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

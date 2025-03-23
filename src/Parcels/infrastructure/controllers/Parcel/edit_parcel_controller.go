@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	parcel "api1-multi.com/a/src/Parcels/application/Parcel"
-	"api1-multi.com/a/src/Parcels/domain/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,7 +34,8 @@ func(controller *EditParcelC)Execute(c *gin.Context){
 	}
 
 	var input struct{
-		Parcel models.Parcel `json:"parcel"`
+		Id_device int `json:"id_device"`
+		Id_status int `json:"id_status"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -46,11 +46,9 @@ func(controller *EditParcelC)Execute(c *gin.Context){
 	}
 
 	if err := controller.uc.Execute(
-		id_number, 
-		input.Parcel.Id_user, 
-		input.Parcel.Id_crop, 
-		input.Parcel.Id_device, 
-		input.Parcel.Id_status,
+		id_number,
+		input.Id_device, 
+		input.Id_status,
 	); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"Error": "Error al editar parcela",

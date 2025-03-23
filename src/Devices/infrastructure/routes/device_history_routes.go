@@ -24,7 +24,7 @@ func DeviceHistoryRoutes(r *gin.Engine){
 
 	device_history := r.Group("device_history")
 	{
-		device_history.POST("/", rhc.Execute)
+		device_history.POST("/:id_parcel", rhc.Execute)
 		device_history.GET("/:id_parcel", ghc.Execute)
 		device_history.PATCH("/:id", smdc.Execute)
 		device_history.PUT("/:id", srdc.Execute)
