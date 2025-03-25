@@ -17,7 +17,7 @@ func NewGetOneMeasurementC(uc application.GetOneMeasurementUC)*GetOneMeasurement
 }
 
 func(controller *GetOneMeasurementC)Execute(c *gin.Context){
-	id, error_param := c.Params.Get("id_user")
+	id, error_param := c.Params.Get("id")
 	if !error_param {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error": "No se pudo mapear el parámetro",

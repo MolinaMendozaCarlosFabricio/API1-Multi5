@@ -13,11 +13,11 @@ func NewEditParcelUC(db repository.IParcel_repo)*EditParcelUC{
 	return&EditParcelUC{db: db}
 }
 
-func(uc *EditParcelUC)Execute(id, id_user, id_crop, id_device, id_status int)error{
+func(uc *EditParcelUC)Execute(id, id_device, id_status int)error{
 	parcel := &models.Parcel{
 		ID: id, 
-		Id_user: id_user, 
-		Id_crop: id_crop, 
+		Id_user: 0, 
+		Id_crop: 0, 
 		Id_device: id_device, 
 		Id_status: id_status,
 	}

@@ -36,7 +36,7 @@ func ParcelRoutes(r *gin.Engine){
 		parcels.POST("/", cpc.Execute)
 		parcels.GET("/:id_user", gmpc.Execute)
 		parcels.GET("/all_about/:id", gopc.Execute)
-		parcels.POST("/:id", epc.Execute)
+		parcels.PUT("/:id", epc.Execute)
 		parcels.DELETE("/:id", dpc.Execute)
 	}
 }

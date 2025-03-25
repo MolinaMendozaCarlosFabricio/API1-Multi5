@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	params "api1-multi.com/a/src/Parcels/application/Params"
-	"api1-multi.com/a/src/Parcels/domain/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,7 +33,14 @@ func(controller *EditParametersC)Execute(c *gin.Context){
 		return
 	}
 
-	var input models.CultivationParameters
+	var input struct{
+		Humidity_min float32 `json:"humidity_min"`
+		Humidity_max float32 `json:"humidity_max"`
+		Temp_min float32 `json:"temp_min"`
+		Temp_max float32 `json:"temp_max"`
+		Min_air_con float32 `json:"min_air_con"`
+		Max_air_con float32 `json:"max_air_con"`
+	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
