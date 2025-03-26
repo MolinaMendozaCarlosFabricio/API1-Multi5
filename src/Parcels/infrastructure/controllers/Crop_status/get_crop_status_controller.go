@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	cropstatus "api1-multi.com/a/src/Parcels/application/Crop_status"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetCropStatusC struct {
 	uc cropstatus.GetCropStatusUC
 }
 
-func NewGetCropStatusC(uc cropstatus.GetCropStatusUC)*GetCropStatusC{
-	return&GetCropStatusC{uc: uc}
+func NewGetCropStatusC()*GetCropStatusC{
+
+	mysql := infrastructure.GetCropStatusMySQL()
+	uc := cropstatus.NewGetCropStatusUC(mysql)
+
+	return&GetCropStatusC{uc: *uc}
 }
 
 func(controller *GetCropStatusC)Execute(c *gin.Context){

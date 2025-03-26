@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	devicehistory "api1-multi.com/a/src/Devices/application/Device_history"
+	"api1-multi.com/a/src/Devices/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type SetRetireDateC struct {
 	uc devicehistory.SetRetireDateUC
 }
 
-func NewSetRetireDateC(uc devicehistory.SetRetireDateUC)*SetRetireDateC{
-	return&SetRetireDateC{uc: uc}
+func NewSetRetireDateC()*SetRetireDateC{
+
+	mysql := infrastructure.GetDeviceHistoryMySQL()
+	uc := devicehistory.NewSetRetireDateUC(mysql)
+
+	return&SetRetireDateC{uc: *uc}
 }
 
 func(controller *SetRetireDateC)Execute(c *gin.Context){

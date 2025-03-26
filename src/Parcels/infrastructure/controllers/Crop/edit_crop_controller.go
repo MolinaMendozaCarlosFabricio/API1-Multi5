@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	crop "api1-multi.com/a/src/Parcels/application/Crop"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type EditNameCropC struct {
 	uc crop.EditNameCropUC
 }
 
-func NewEditNameCropC(uc crop.EditNameCropUC)*EditNameCropC{
-	return&EditNameCropC{uc: uc}
+func NewEditNameCropC()*EditNameCropC{
+
+	mysql := infrastructure.GetCropMySQL()
+	uc := crop.NewEditNameCropUC(mysql)
+
+	return&EditNameCropC{uc: *uc}
 }
 
 func(controller *EditNameCropC)Execute(c *gin.Context){

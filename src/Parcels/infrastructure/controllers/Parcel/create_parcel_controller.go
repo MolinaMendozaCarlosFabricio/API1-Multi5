@@ -6,6 +6,7 @@ import (
 	crop "api1-multi.com/a/src/Parcels/application/Crop"
 	params "api1-multi.com/a/src/Parcels/application/Params"
 	parcel "api1-multi.com/a/src/Parcels/application/Parcel"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,12 +16,17 @@ type CreateParcelC struct {
 	uc_parcel parcel.CreateParcelUC
 }
 
-func NewCreateParcelC(
-	uc_crop crop.CreateCropUC,
-	uc_params params.SetParamsUC,
-	uc_parcel parcel.CreateParcelUC,
-)*CreateParcelC{
-	return&CreateParcelC{uc_crop: uc_crop, uc_params: uc_params, uc_parcel: uc_parcel}
+func NewCreateParcelC()*CreateParcelC{
+
+	crop_mysql := infrastructure.GetCropMySQL()
+	params_mysql := infrastructure.GetParamsMySQL()
+	parcel_mysql := infrastructure.GetParcelMysQL()
+
+	uc_crop := crop.NewCreateCropUC(crop_mysql)
+	uc_params := params.NewSetParamsUC(params_mysql)
+	uc_parcel := parcel.NewCreateParcelUC(parcel_mysql)
+
+	return&CreateParcelC{uc_crop: *uc_crop, uc_params: *uc_params, uc_parcel: *uc_parcel}
 }
 
 func(controller *CreateParcelC)Execute(c *gin.Context){

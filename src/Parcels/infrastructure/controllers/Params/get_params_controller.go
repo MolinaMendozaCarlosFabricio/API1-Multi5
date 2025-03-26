@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	params "api1-multi.com/a/src/Parcels/application/Params"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetParamsC struct {
 	uc params.GetParamsUC
 }
 
-func NewGetParamsC(uc params.GetParamsUC)*GetParamsC{
-	return&GetParamsC{uc: uc}
+func NewGetParamsC()*GetParamsC{
+
+	mysql := infrastructure.GetParamsMySQL()
+	uc := params.NewGetParamsUC(mysql)
+
+	return&GetParamsC{uc: *uc}
 }
 
 func(controller *GetParamsC)Execute(c *gin.Context){

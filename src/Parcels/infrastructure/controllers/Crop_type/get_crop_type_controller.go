@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	croptype "api1-multi.com/a/src/Parcels/application/Crop_type"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetCropTypeC struct {
 	uc croptype.GetCropTypeUC
 }
 
-func NewGetCropTypeC(uc croptype.GetCropTypeUC)*GetCropTypeC{
-	return&GetCropTypeC{uc: uc}
+func NewGetCropTypeC()*GetCropTypeC{
+
+	mysql := infrastructure.GetCropSTypeMySQL()
+	uc := croptype.NewGetCropTypeUC(mysql)
+
+	return&GetCropTypeC{uc: *uc}
 }
 
 func(controller *GetCropTypeC)Execute(c *gin.Context){

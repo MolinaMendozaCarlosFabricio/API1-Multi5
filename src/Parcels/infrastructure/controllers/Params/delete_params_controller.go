@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	params "api1-multi.com/a/src/Parcels/application/Params"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type DeleteParamsC struct {
 	uc params.DeleteParamsUC
 }
 
-func NewDeleteParamsC(uc params.DeleteParamsUC)*DeleteParamsC{
-	return&DeleteParamsC{uc: uc}
+func NewDeleteParamsC()*DeleteParamsC{
+
+	mysql := infrastructure.GetParamsMySQL()
+	uc := params.NewDeleteParamsUC(mysql)
+
+	return&DeleteParamsC{uc: *uc}
 }
 
 func(controller *DeleteParamsC)Execute(c *gin.Context){

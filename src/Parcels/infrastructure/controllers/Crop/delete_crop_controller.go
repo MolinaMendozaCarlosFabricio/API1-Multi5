@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	crop "api1-multi.com/a/src/Parcels/application/Crop"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type DeleteCropC struct {
 	uc crop.DeleteCropUC
 }
 
-func NewDeleteCropC(uc crop.DeleteCropUC)*DeleteCropC{
-	return&DeleteCropC{uc: uc}
+func NewDeleteCropC()*DeleteCropC{
+
+	mysql := infrastructure.GetCropMySQL()
+	uc := crop.NewDeleteCropUC(mysql)
+
+	return&DeleteCropC{uc: *uc}
 }
 
 func(controller *DeleteCropC)Execute(c *gin.Context){

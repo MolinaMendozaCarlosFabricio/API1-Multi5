@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"api1-multi.com/a/src/Users/application"
+	"api1-multi.com/a/src/Users/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type DeleteUserController struct {
 	c application.DeleteUserUC
 }
 
-func NewDeleteUserController(uc application.DeleteUserUC)*DeleteUserController{
-	return&DeleteUserController{c: uc}
+func NewDeleteUserController()*DeleteUserController{
+
+	mysql := infrastructure.GetUserMySQL()
+	uc := application.NewDeleteUserUC(mysql)
+
+	return&DeleteUserController{c: *uc}
 }
 
 func(controller *DeleteUserController)Execute(c *gin.Context){

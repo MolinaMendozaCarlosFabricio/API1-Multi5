@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"api1-multi.com/a/src/Users/application"
+	"api1-multi.com/a/src/Users/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,12 @@ type RegisterUserController struct {
 	c application.RegisterUserUC
 }
 
-func NewRegisterUserController(uc application.RegisterUserUC)*RegisterUserController{
-	return&RegisterUserController{c: uc}
+func NewRegisterUserController()*RegisterUserController{
+
+	mysql := infrastructure.GetUserMySQL()
+	uc := application.NewRegisterUserUC(mysql)
+
+	return&RegisterUserController{c: *uc}
 }
 
 func(controller *RegisterUserController)Execute(c *gin.Context){

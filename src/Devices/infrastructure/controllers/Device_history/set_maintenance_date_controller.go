@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	devicehistory "api1-multi.com/a/src/Devices/application/Device_history"
+	"api1-multi.com/a/src/Devices/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type SetMaintenanceDateC struct {
 	uc devicehistory.SetMaintenanceDateUC
 }
 
-func NewSetMaintenanceDateC(uc devicehistory.SetMaintenanceDateUC)*SetMaintenanceDateC{
-	return&SetMaintenanceDateC{uc: uc}
+func NewSetMaintenanceDateC()*SetMaintenanceDateC{
+
+	mysql := infrastructure.GetDeviceHistoryMySQL()
+	uc := devicehistory.NewSetMaintenanceDateUC(mysql)
+
+	return&SetMaintenanceDateC{uc: *uc}
 }
 
 func(controller *SetMaintenanceDateC)Execute(c *gin.Context){

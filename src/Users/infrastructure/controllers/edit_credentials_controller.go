@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"api1-multi.com/a/src/Users/application"
+	"api1-multi.com/a/src/Users/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type EditCredentialsController struct {
 	c application.EditCredentialsUC
 }
 
-func NewEditCredentialsController(uc application.EditCredentialsUC)*EditCredentialsController{
-	return&EditCredentialsController{c: uc}
+func NewEditCredentialsController()*EditCredentialsController{
+
+	mysql := infrastructure.GetUserMySQL()
+	uc := application.NewEditCredentialsUC(mysql)
+
+	return&EditCredentialsController{c: *uc}
 }
 
 func(controller *EditCredentialsController)Execute(c *gin.Context){

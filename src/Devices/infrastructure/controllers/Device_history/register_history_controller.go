@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	devicehistory "api1-multi.com/a/src/Devices/application/Device_history"
+	"api1-multi.com/a/src/Devices/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type RegisterDeviceInHistoryC struct {
 	uc devicehistory.RegisterDeviceInHistoryUC
 }
 
-func NewRegisterDeviceInHistoryC(uc devicehistory.RegisterDeviceInHistoryUC)*RegisterDeviceInHistoryC{
-	return&RegisterDeviceInHistoryC{uc: uc}
+func NewRegisterDeviceInHistoryC()*RegisterDeviceInHistoryC{
+
+	mysql := infrastructure.GetDeviceHistoryMySQL()
+	uc := devicehistory.NewRegisterDeviceInHistoryUC(mysql)
+
+	return&RegisterDeviceInHistoryC{uc: *uc}
 }
 
 func(controller *RegisterDeviceInHistoryC)Execute(c *gin.Context){

@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"api1-multi.com/a/src/Measurement/application"
+	"api1-multi.com/a/src/Measurement/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetAllMeasurementsC struct {
 	uc application.GetAllMeasurementsUC
 }
 
-func NewGetAllMeasurementsC(uc application.GetAllMeasurementsUC)*GetAllMeasurementsC{
-	return&GetAllMeasurementsC{uc: uc}
+func NewGetAllMeasurementsC()*GetAllMeasurementsC{
+
+	mysql := infrastructure.GetMeasurementMySQL()
+	uc := application.NewGetAllMeasurementsUC(mysql)
+
+	return&GetAllMeasurementsC{uc: *uc}
 }
 
 func(controller *GetAllMeasurementsC)Execute(c *gin.Context){

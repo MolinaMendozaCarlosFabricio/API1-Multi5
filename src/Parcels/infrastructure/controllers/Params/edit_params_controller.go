@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	params "api1-multi.com/a/src/Parcels/application/Params"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type EditParametersC struct {
 	uc params.EditParametersUc
 }
 
-func NewEditParametersC(uc params.EditParametersUc)*EditParametersC{
-	return&EditParametersC{uc: uc}
+func NewEditParametersC()*EditParametersC{
+
+	mysql := infrastructure.GetParamsMySQL()
+	uc := params.NewEditParametersUc(mysql)
+
+	return&EditParametersC{uc: *uc}
 }
 
 func(controller *EditParametersC)Execute(c *gin.Context){
