@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	parcel "api1-multi.com/a/src/Parcels/application/Parcel"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type EditParcelC struct {
 	uc parcel.EditParcelUC
 }
 
-func NewEditParcelC(uc parcel.EditParcelUC)*EditParcelC{
-	return&EditParcelC{uc: uc}
+func NewEditParcelC()*EditParcelC{
+
+	mysql := infrastructure.GetParcelMysQL()
+	uc := parcel.NewEditParcelUC(mysql)
+
+	return&EditParcelC{uc: *uc}
 }
 
 func(controller *EditParcelC)Execute(c *gin.Context){

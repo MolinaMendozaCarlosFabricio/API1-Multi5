@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	parcel "api1-multi.com/a/src/Parcels/application/Parcel"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type DeleteParcelC struct {
 	uc parcel.DeleteParcelUC
 }
 
-func NewDeleteParcelC(uc parcel.DeleteParcelUC)*DeleteParcelC{
-	return&DeleteParcelC{uc: uc}
+func NewDeleteParcelC()*DeleteParcelC{
+
+	mysql := infrastructure.GetParcelMysQL()
+	uc := parcel.NewDeleteParcelUC(mysql)
+
+	return&DeleteParcelC{uc: *uc}
 }
 
 func(controller *DeleteParcelC)Execute(c *gin.Context){

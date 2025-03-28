@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"api1-multi.com/a/src/Users/application"
+	"api1-multi.com/a/src/Users/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type ViewUserController struct {
 	c application.ViewUserUC
 }
 
-func NewViewUserController(uc application.ViewUserUC)*ViewUserController{
-	return&ViewUserController{c: uc}
+func NewViewUserController()*ViewUserController{
+
+	mysql := infrastructure.GetUserMySQL()
+	uc := application.NewViewUserUC(mysql)
+
+	return&ViewUserController{c: *uc}
 }
 
 func(controller *ViewUserController)Execute(c *gin.Context){

@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	parcel "api1-multi.com/a/src/Parcels/application/Parcel"
+	"api1-multi.com/a/src/Parcels/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetAllAboutMyParcelC struct {
 	uc parcel.GetAllAboutMyParcelUC
 }
 
-func NewGetAllAboutMyParcelC(uc parcel.GetAllAboutMyParcelUC)*GetAllAboutMyParcelC{
-	return&GetAllAboutMyParcelC{uc: uc}
+func NewGetAllAboutMyParcelC()*GetAllAboutMyParcelC{
+
+	mysql := infrastructure.GetParcelMysQL()
+	uc := parcel.NewGetAllAboutMyParcel(mysql)
+
+	return&GetAllAboutMyParcelC{uc: *uc}
 }
 
 func(controller *GetAllAboutMyParcelC)Execute(c *gin.Context){

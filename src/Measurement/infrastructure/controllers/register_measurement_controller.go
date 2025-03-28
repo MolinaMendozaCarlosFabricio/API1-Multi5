@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"api1-multi.com/a/src/Measurement/application"
+	"api1-multi.com/a/src/Measurement/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,12 @@ type RegisterMeasurementC struct {
 	uc application.RegisterMeasurementUC
 }
 
-func NewRegisterMeasurementC(uc application.RegisterMeasurementUC)*RegisterMeasurementC{
-	return&RegisterMeasurementC{uc: uc}
+func NewRegisterMeasurementC()*RegisterMeasurementC{
+
+	mysql := infrastructure.GetMeasurementMySQL()
+	uc := application.NewRegisterMeasurementUC(mysql)
+
+	return&RegisterMeasurementC{uc: *uc}
 }
 
 func(controller *RegisterMeasurementC)Execute(c *gin.Context){

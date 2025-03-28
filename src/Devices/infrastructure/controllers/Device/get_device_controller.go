@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	device "api1-multi.com/a/src/Devices/application/Device"
+	"api1-multi.com/a/src/Devices/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +13,12 @@ type GetDeviceC struct {
 	uc device.GetDeviceUC
 }
 
-func NewGetDeviceC(uc device.GetDeviceUC)*GetDeviceC{
-	return&GetDeviceC{uc: uc}
+func NewGetDeviceC()*GetDeviceC{
+
+	mysql := infrastructure.GetDeviceMySQL()
+	uc := device.NewGetDeviceUC(mysql)
+
+	return&GetDeviceC{uc: *uc}
 }
 
 func(controller *GetDeviceC)Execute(c *gin.Context){
